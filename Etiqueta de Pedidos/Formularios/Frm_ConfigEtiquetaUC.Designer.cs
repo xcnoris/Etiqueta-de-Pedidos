@@ -41,7 +41,7 @@
             textBox2 = new TextBox();
             label1 = new Label();
             textBox1 = new TextBox();
-            textBox7 = new TextBox();
+            Txt_CodigoFonte = new TextBox();
             label7 = new Label();
             groupBox1 = new GroupBox();
             Txt_Observacao = new TextBox();
@@ -206,13 +206,13 @@
             textBox1.TabIndex = 0;
             textBox1.Text = "<Cliente>";
             // 
-            // textBox7
+            // Txt_CodigoFonte
             // 
-            textBox7.Location = new Point(326, 78);
-            textBox7.Multiline = true;
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(318, 435);
-            textBox7.TabIndex = 1;
+            Txt_CodigoFonte.Location = new Point(326, 78);
+            Txt_CodigoFonte.Multiline = true;
+            Txt_CodigoFonte.Name = "Txt_CodigoFonte";
+            Txt_CodigoFonte.Size = new Size(318, 435);
+            Txt_CodigoFonte.TabIndex = 1;
             // 
             // label7
             // 
@@ -367,7 +367,7 @@
             Controls.Add(Btn_Salvar);
             Controls.Add(groupBox1);
             Controls.Add(label7);
-            Controls.Add(textBox7);
+            Controls.Add(Txt_CodigoFonte);
             Controls.Add(Variaveis);
             Name = "Frm_ConfigEtiquetaUC";
             Size = new Size(957, 577);
@@ -394,7 +394,7 @@
         private TextBox textBox5;
         private Label label6;
         private TextBox textBox6;
-        private TextBox textBox7;
+        private TextBox Txt_CodigoFonte;
         private Label label7;
         private GroupBox groupBox1;
         private TextBox Txt_Observacao;

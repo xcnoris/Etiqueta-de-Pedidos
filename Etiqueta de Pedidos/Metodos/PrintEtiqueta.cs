@@ -7,12 +7,19 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Etiqueta_de_Pedidos.Frm_Principal;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Etiqueta_de_Pedidos.Metodos
 {
     internal class PrintEtiqueta
     {
+        public string Mensagem;
+        public bool Status;
 
+        public PrintEtiqueta()
+        {
+            Status = true;
+        }
         internal void ExecutarImpressao(string codigoFonteEtiqueta, DadosImpressao dadosImpressao, DadosExibirInImpressao dadosExibirImpressao)
         {
             try
@@ -20,19 +27,19 @@ namespace Etiqueta_de_Pedidos.Metodos
                 // Código da etiqueta (comandos específicos da impressora)
                 string codigoEtiqueta = codigoFonteEtiqueta;
 
-                string cliente = dadosImpressao.Cliente + dadosExibirImpressao.ExibirCliente;
-                string dataCompra = dadosImpressao.DataCompra + dadosExibirImpressao.ExibirDataCompra;
-                string numTransacao = dadosImpressao.NumTransacao + dadosExibirImpressao.ExibirNumTransacao;
-                string produto = dadosImpressao.Produto + dadosExibirImpressao.ExibirProduto;
-                string tamanho = dadosImpressao.Vendedor + dadosExibirImpressao.ExibirTamanho;
-                string observacao = dadosImpressao.Observacao + dadosExibirImpressao.ExibirObservacao;
+                string cliente = dadosExibirImpressao.ExibirCliente + dadosImpressao.Cliente ;
+                string dataCompra = dadosExibirImpressao.ExibirDataCompra + dadosImpressao.DataCompra ;
+                string numTransacao = dadosExibirImpressao.ExibirNumTransacao + dadosImpressao.NumTransacao ;
+                string produto = dadosExibirImpressao.ExibirProduto + dadosImpressao.Produto;
+                string vendedor = dadosExibirImpressao.ExibirVendedor + dadosImpressao.Vendedor;
+                string observacao = dadosExibirImpressao.ExibirObservacao + dadosImpressao.Observacao;
 
                 // Realizar a substituição das variáveis no código da etiqueta
                 codigoEtiqueta = codigoEtiqueta.Replace("<Cliente>", cliente);
                 codigoEtiqueta = codigoEtiqueta.Replace("<DataCompra>", dataCompra);
                 codigoEtiqueta = codigoEtiqueta.Replace("<NumTransacao>", numTransacao);
                 codigoEtiqueta = codigoEtiqueta.Replace("<Produto>", produto);
-                codigoEtiqueta = codigoEtiqueta.Replace("<Tamanho>", tamanho);
+                codigoEtiqueta = codigoEtiqueta.Replace("<Vendedor>", vendedor);
                 codigoEtiqueta = codigoEtiqueta.Replace("<Observacao>", observacao);
 
 
@@ -45,22 +52,27 @@ namespace Etiqueta_de_Pedidos.Metodos
                     bool result = RawPrinterHelper.SendStringToPrinter(printDialog.PrinterSettings.PrinterName, codigoEtiqueta);
                     if (result)
                     {
-                        MessageBox.Show("Etiqueta impressa com sucesso!");
+                        Status = true;
+                        Mensagem = "Etiqueta impressa com sucesso!";
                     }
                     else
                     {
-                        MessageBox.Show("Falha ao imprimir a etiqueta.");
+                        Status = false;
+                        Mensagem = "Falha ao imprimir a etiqueta.";
                     }
                 }
             }
             catch (Exception ex)
             {
+                Status = false;
+                Mensagem += ex.Message;
                 MessageBox.Show($"Erro ao tentar imprimir: {ex.Message}");
             }
         }
 
         public static class RawPrinterHelper
         {
+
             [DllImport("winspool.Drv", CharSet = CharSet.Auto, SetLastError = true)]
             public static extern bool OpenPrinter(string printerName, out IntPtr hPrinter, IntPtr pd);
 
@@ -101,11 +113,15 @@ namespace Etiqueta_de_Pedidos.Metodos
                     Marshal.StructureToPtr(di, diPtr, false);
 
                     bool success = SendBytesToPrinter(printerName, pBytes, dwCount);
+                    MetodosGerais.RegistrarLog("Impressão", $"Sucesso no envio da string para a impressora!");
+
                     return success;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Erro ao enviar string para a impressora: {ex.Message}");
+                    MetodosGerais.RegistrarLog("Impressão", $"Erro ao enviar string para a impressora: {ex.Message}");
+
                     return false;
                 }
                 finally
@@ -142,17 +158,20 @@ namespace Etiqueta_de_Pedidos.Metodos
                             {
                                 success = WritePrinter(hPrinter, buffer, bufferLength, out int bytesWritten);
                                 EndPagePrinter(hPrinter);
+                                MetodosGerais.RegistrarLog("Impressão", $"Impressora aberta");
                             }
                             EndDocPrinter(hPrinter);
                         }
                     }
                     else
                     {
+                        MetodosGerais.RegistrarLog("Impressão", $"Erro ao abrir a impressora");
                         MessageBox.Show("Erro ao abrir a impressora.");
                     }
                 }
                 catch (Exception ex)
                 {
+                    MetodosGerais.RegistrarLog("Impressão", $"Erro ao enviar bytes para a impressora: {ex.Message}");
                     MessageBox.Show($"Erro ao enviar bytes para a impressora: {ex.Message}");
                 }
                 finally
@@ -162,6 +181,8 @@ namespace Etiqueta_de_Pedidos.Metodos
 
                     if (hPrinter != IntPtr.Zero)
                         ClosePrinter(hPrinter);
+                    
+
                 }
 
                 return success;

@@ -38,6 +38,7 @@
             // 
             // DGV_Dados
             // 
+            DGV_Dados.AllowUserToAddRows = false;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = Color.Gainsboro;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;

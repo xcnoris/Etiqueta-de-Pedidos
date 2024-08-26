@@ -19,14 +19,17 @@ namespace Etiqueta_de_Pedidos.Formularios
         private PedidoCRUD pedidoCRUD;
         private DadosImpressao dadosImpressao;
         private DadosExibirInImpressao dadosExibirImpressao;
-        public Frm_SelecaoDeImpressaoUC()
+        private Frm_ConfigEtiquetaUC configEtiqueta;
+        public Frm_SelecaoDeImpressaoUC(Frm_ConfigEtiquetaUC frmConfigEtiqueta)
         {
             InitializeComponent();
+
+            configEtiqueta = frmConfigEtiqueta;
 
             printEtiqueta = new PrintEtiqueta();
             pedidoCRUD = new PedidoCRUD();
             dadosImpressao = new DadosImpressao();
-            dadosExibirImpressao = new DadosExibirInImpressao();
+            
 
             AddColumnDataGridView();
         }
@@ -35,15 +38,53 @@ namespace Etiqueta_de_Pedidos.Formularios
         {
             try
             {
-                //printEtiqueta.ExecutarImpressao(teste, dadosImpressao, dadosExibirImpressao);
+                string codigoFonte = configEtiqueta.CodigoFonte;
 
+                var selectedRow = DGV_Dados.CurrentRow;
+
+                dadosImpressao.NumTransacao = selectedRow.Cells["NSU"].Value.ToString();
+                dadosImpressao.Cliente = selectedRow.Cells["Cliente"].Value.ToString();
+                dadosImpressao.DataCompra = selectedRow.Cells["DataCompra"].Value.ToString();
+                dadosImpressao.Produto = selectedRow.Cells["Produto"].Value.ToString();
+                dadosImpressao.Observacao = selectedRow.Cells["Observacao"].Value.ToString();
+                dadosImpressao.Vendedor = selectedRow.Cells["Vendedor"].Value.ToString();
+
+               
+                dadosExibirImpressao = InstanciarDadosExibirImpressao();
+
+                printEtiqueta.ExecutarImpressao(codigoFonte, dadosImpressao, dadosExibirImpressao);
+                if (printEtiqueta.Status)
+                {
+                    MessageBox.Show(printEtiqueta.Mensagem, "Etiqueta de Pedidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MetodosGerais.RegistrarLog("Pedido", printEtiqueta.Mensagem);
+                }
+                else
+                {
+                    MessageBox.Show(printEtiqueta.Mensagem, "Etiqueta de Pedidos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetodosGerais.RegistrarLog("Pedido", printEtiqueta.Mensagem);
+                }
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, "Etiqueta de Pedidos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Pedido", ex.Message);
                 MessageBox.Show("Error: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private DadosExibirInImpressao InstanciarDadosExibirImpressao()
+        {
+            return new DadosExibirInImpressao
+            {
+                ExibirCliente = configEtiqueta.Cliente,
+                ExibirDataCompra = configEtiqueta.DataCompra,
+                ExibirNumTransacao = configEtiqueta.NumTransacao,
+                ExibirProduto = configEtiqueta.Produto,
+                ExibirObservacao = configEtiqueta.Observacao,
+                ExibirVendedor = configEtiqueta.Vendedor
+            };
+        }
+       
 
         private void Btn_Buscar_Click(object sender, EventArgs e)
         {

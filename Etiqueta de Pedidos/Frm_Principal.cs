@@ -17,8 +17,8 @@ namespace Etiqueta_de_Pedidos
         {
             InitializeComponent();
 
-            FrmSelecaoUC = new Frm_SelecaoDeImpressaoUC();
             ConfigEtiquetaUC = new Frm_ConfigEtiquetaUC();
+            FrmSelecaoUC = new Frm_SelecaoDeImpressaoUC(ConfigEtiquetaUC);
 
             AdicionarUserControls();
         }
