@@ -1,15 +1,7 @@
 ﻿using Etiqueta_de_Pedidos.Metodos;
 using Etiqueta_de_Pedidos.Modelos;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Etiqueta_de_Pedidos.Formularios
 {
@@ -29,27 +21,45 @@ namespace Etiqueta_de_Pedidos.Formularios
             printEtiqueta = new PrintEtiqueta();
             pedidoCRUD = new PedidoCRUD();
             dadosImpressao = new DadosImpressao();
-            
+
 
             AddColumnDataGridView();
+
+
+            // Adicionando o evento KeyDown para o controle de texto
+            Txt_NsuPedido.KeyDown += Txt_NsuPedido_KeyDown;
+
+
+        }
+        // Método para capturar o evento KeyDown no Txt_NsuPedido
+        private void Txt_NsuPedido_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Simula o clique no botão "Buscar"
+                Btn_Buscar_Click(sender, e);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
+
                 string codigoFonte = configEtiqueta.CodigoFonte;
 
                 var selectedRow = DGV_Dados.CurrentRow;
 
+                //Puxa os dados da linha do DGV que esta selecionada 
                 dadosImpressao.NumTransacao = selectedRow.Cells["NSU"].Value.ToString();
                 dadosImpressao.Cliente = selectedRow.Cells["Cliente"].Value.ToString();
                 dadosImpressao.DataCompra = selectedRow.Cells["DataCompra"].Value.ToString();
                 dadosImpressao.Produto = selectedRow.Cells["Produto"].Value.ToString();
+                dadosImpressao.Tamanho = selectedRow.Cells["Tamanho"].Value.ToString();
                 dadosImpressao.Observacao = selectedRow.Cells["Observacao"].Value.ToString();
                 dadosImpressao.Vendedor = selectedRow.Cells["Vendedor"].Value.ToString();
 
-               
+
                 dadosExibirImpressao = InstanciarDadosExibirImpressao();
 
                 printEtiqueta.ExecutarImpressao(codigoFonte, dadosImpressao, dadosExibirImpressao);
@@ -80,11 +90,12 @@ namespace Etiqueta_de_Pedidos.Formularios
                 ExibirDataCompra = configEtiqueta.DataCompra,
                 ExibirNumTransacao = configEtiqueta.NumTransacao,
                 ExibirProduto = configEtiqueta.Produto,
+                ExibirTamanho = configEtiqueta.Tamanho,
                 ExibirObservacao = configEtiqueta.Observacao,
                 ExibirVendedor = configEtiqueta.Vendedor
             };
         }
-       
+
 
         private void Btn_Buscar_Click(object sender, EventArgs e)
         {
@@ -100,7 +111,7 @@ namespace Etiqueta_de_Pedidos.Formularios
                 {
                     MessageBox.Show("Digite o numero da NSU", "Nsu Vazia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -143,7 +154,7 @@ namespace Etiqueta_de_Pedidos.Formularios
             {
                 AddColumnDataGridView();
 
-                
+
                 // Adicionar a linha ao DataGridView
                 DGV_Dados.Rows.Add(
                     row["nsu"].ToString(),
@@ -151,6 +162,7 @@ namespace Etiqueta_de_Pedidos.Formularios
                     row["data_formatada"].ToString(),
                     row["descricao_item"].ToString(),
                     row["observacao"].ToString(),
+                    "",
                     row["vendedor"].ToString()
                 );
             }
@@ -171,6 +183,7 @@ namespace Etiqueta_de_Pedidos.Formularios
                     DGV_Dados.Columns.Add("Cliente", "Cliente");
                     DGV_Dados.Columns.Add("DataCompra", "Data Compra");
                     DGV_Dados.Columns.Add("Produto", "Produto");
+                    DGV_Dados.Columns.Add("Tamanho", "Tamanho");
                     DGV_Dados.Columns.Add("Observacao", "Observação");
                     DGV_Dados.Columns.Add("Vendedor", "Vendedor");
                 }
@@ -179,6 +192,16 @@ namespace Etiqueta_de_Pedidos.Formularios
             {
                 MessageBox.Show($" {ex.Message}", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Frm_SelecaoDeImpressaoUC_Load(object sender, EventArgs e)
+        {
+            foreach (DataGridViewColumn column in DGV_Dados.Columns)
+            {
+                column.ReadOnly = true;
+            }
+
+            DGV_Dados.Columns["observacao"].ReadOnly = false;
         }
     }
 }

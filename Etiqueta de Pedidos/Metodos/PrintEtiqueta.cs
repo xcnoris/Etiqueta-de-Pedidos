@@ -1,13 +1,6 @@
 ﻿using Etiqueta_de_Pedidos.Modelos;
-using System;
-using System.Collections.Generic;
 using System.Drawing.Printing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Etiqueta_de_Pedidos.Frm_Principal;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Etiqueta_de_Pedidos.Metodos
 {
@@ -32,6 +25,7 @@ namespace Etiqueta_de_Pedidos.Metodos
                 string numTransacao = dadosExibirImpressao.ExibirNumTransacao + dadosImpressao.NumTransacao ;
                 string produto = dadosExibirImpressao.ExibirProduto + dadosImpressao.Produto;
                 string vendedor = dadosExibirImpressao.ExibirVendedor + dadosImpressao.Vendedor;
+                string tamanho = dadosExibirImpressao.ExibirTamanho + dadosImpressao.Tamanho;
                 string observacao = dadosExibirImpressao.ExibirObservacao + dadosImpressao.Observacao;
 
                 // Realizar a substituição das variáveis no código da etiqueta
@@ -40,7 +34,9 @@ namespace Etiqueta_de_Pedidos.Metodos
                 codigoEtiqueta = codigoEtiqueta.Replace("<NumTransacao>", numTransacao);
                 codigoEtiqueta = codigoEtiqueta.Replace("<Produto>", produto);
                 codigoEtiqueta = codigoEtiqueta.Replace("<Vendedor>", vendedor);
+                codigoEtiqueta = codigoEtiqueta.Replace("<Tamanho>", tamanho);
                 codigoEtiqueta = codigoEtiqueta.Replace("<Observacao>", observacao);
+                codigoEtiqueta = codigoEtiqueta.Replace("<Vendedor>", observacao);
 
 
                 // Exibir caixa de diálogo para o usuário selecionar a impressora

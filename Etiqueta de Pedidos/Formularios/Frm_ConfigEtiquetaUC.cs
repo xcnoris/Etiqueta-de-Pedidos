@@ -1,17 +1,6 @@
-﻿using Etiqueta_de_Pedidos.DataBase;
-using Etiqueta_de_Pedidos.Metodos;
+﻿using Etiqueta_de_Pedidos.Metodos;
 using Etiqueta_de_Pedidos.Modelos;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Etiqueta_de_Pedidos.Formularios
 {
@@ -47,6 +36,14 @@ namespace Etiqueta_de_Pedidos.Formularios
                 return Txt_Produto.Text;
             }
         }
+        public string Tamanho
+        {
+            get
+            {
+                return Txt_Tamanho.Text;
+            }
+        }
+
         public string Observacao
         {
             get
@@ -76,11 +73,6 @@ namespace Etiqueta_de_Pedidos.Formularios
             CarregarDadosInFRM();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void CarregarDadosInFRM()
         {
             try
@@ -95,6 +87,7 @@ namespace Etiqueta_de_Pedidos.Formularios
                     Txt_DataCompra.Text = dadosExibir.ExibirDataCompra;
                     Txt_NumTrasacao.Text = dadosExibir.ExibirNumTransacao;
                     Txt_Produto.Text = dadosExibir.ExibirProduto;
+                    Txt_Tamanho.Text = dadosExibir.ExibirTamanho;
                     Txt_Observacao.Text = dadosExibir.ExibirObservacao;
                     Txt_Vendedor.Text = dadosExibir.ExibirVendedor;
 
@@ -105,7 +98,8 @@ namespace Etiqueta_de_Pedidos.Formularios
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Erro ao carregar dados!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("Pedido", ex.Message);
             }
         }
 
@@ -148,6 +142,7 @@ namespace Etiqueta_de_Pedidos.Formularios
                     ExibirDataCompra = Txt_DataCompra.Text,
                     ExibirNumTransacao = Txt_NumTrasacao.Text,
                     ExibirProduto = Txt_Produto.Text,
+                    ExibirTamanho = Txt_Tamanho.Text,
                     ExibirObservacao = Txt_Observacao.Text,
                     ExibirVendedor = Txt_Vendedor.Text
                 };
@@ -212,43 +207,5 @@ namespace Etiqueta_de_Pedidos.Formularios
                 throw;
             }
         }
-
-        //private string Carregarbanco()
-        //{
-        //    try
-        //    {
-        //        string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        //        string filePath = Path.Combine(basePath, "conexao.json");
-
-        //        if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-        //        {
-        //            throw new FileNotFoundException("O caminho do arquivo de conexão não foi encontrado.");
-        //        }
-
-        //        ConnetionDB conexao = ConnetionDB.LoadConnectionData(filePath);
-        //        if (conexao != null)
-        //        {
-        //            Servidor = conexao.Servidor;
-        //            IpHost = conexao.IpHost;
-        //            DataBase = conexao.DataBase;
-        //            Usuario = conexao.Usuario;
-        //            Senha = conexao.Senha;
-        //            return $"Server={conexao.IpHost};Database={conexao.DataBase};User Id={conexao.Usuario};Password={conexao.Senha};";
-        //        }
-        //        else
-        //        {
-        //            MetodosGerais.RegistrarLog("OS", $"Arquivo de conexão não encontrado");
-        //            return "";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log do erro pode ser adicionado aqui, se necessário
-        //        MetodosGerais.RegistrarLog("OS", $"ERROR: {ex.Message}");
-        //        MessageBox.Show("Erro ao carregar dados de conexão: " + ex.Message);
-        //        // Re-throw a exceção para que ela possa ser tratada em um nível superior, se necessário
-        //        return "";
-        //    }
-        //}
     }
 }

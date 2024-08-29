@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Etiqueta_de_Pedidos.Modelos
 {
     internal class DadosImpressao
@@ -12,6 +7,8 @@ namespace Etiqueta_de_Pedidos.Modelos
         public string Cliente { get; set; }
         public string DataCompra { get; set; }
         public string Produto { get; set; }
+
+        public string Tamanho { get; set; }
         public string Observacao { get; set; }
         public string Vendedor { get; set; }
     }

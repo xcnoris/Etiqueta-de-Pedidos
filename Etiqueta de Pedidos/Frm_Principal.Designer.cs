@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Principal));
             printDialog1 = new PrintDialog();
             TBC_Dados = new TabControl();
             SuspendLayout();
@@ -51,6 +52,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 618);
             Controls.Add(TBC_Dados);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new Size(994, 657);
+            MinimumSize = new Size(994, 657);
             Name = "Frm_Principal";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Print Pedidos";

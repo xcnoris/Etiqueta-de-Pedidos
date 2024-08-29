@@ -1,9 +1,4 @@
-using System;
-using System.IO;
-using System.IO.Ports;
-using System.Windows.Forms;
-using System.Drawing.Printing;
-using System.Runtime.InteropServices;
+
 using Etiqueta_de_Pedidos.Formularios;
 
 namespace Etiqueta_de_Pedidos
@@ -12,6 +7,9 @@ namespace Etiqueta_de_Pedidos
     {
         private Frm_SelecaoDeImpressaoUC FrmSelecaoUC;
         private Frm_ConfigEtiquetaUC ConfigEtiquetaUC;
+
+        private TabPage TB1;
+        private TabPage TB2;
 
         public Frm_Principal()
         {
@@ -30,14 +28,14 @@ namespace Etiqueta_de_Pedidos
             ConfigEtiquetaUC.Dock = DockStyle.Fill;
 
             // Crie a primeira aba "Geral"
-            TabPage TB1 = new TabPage
+            TB1 = new TabPage
             {
                 Name = "Seleção de Impressão",
                 Text = "Seleção de Impressão"
             };
             TB1.Controls.Add(FrmSelecaoUC);
 
-            TabPage TB2 = new TabPage
+            TB2 = new TabPage
             {
                 Name = "Etiqueta",
                 Text = "Etiqueta"

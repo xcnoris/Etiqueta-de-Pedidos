@@ -40,29 +40,36 @@
             // 
             DGV_Dados.AllowUserToAddRows = false;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DGV_Dados.BackgroundColor = Color.Gainsboro;
+            DGV_Dados.BackgroundColor = Color.White;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_Dados.Location = new Point(0, 70);
             DGV_Dados.Name = "DGV_Dados";
-            DGV_Dados.ReadOnly = true;
             DGV_Dados.Size = new Size(975, 446);
             DGV_Dados.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Font = new Font("Arial Narrow", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(804, 522);
+            button1.BackColor = Color.DeepSkyBlue;
+            button1.BackgroundImage = Properties.Resources.impressora__1_;
+            button1.BackgroundImageLayout = ImageLayout.None;
+            button1.Cursor = Cursors.Hand;
+            button1.Font = new Font("Britannic Bold", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Transparent;
+            button1.Location = new Point(793, 522);
             button1.Name = "button1";
-            button1.Size = new Size(145, 58);
+            button1.Size = new Size(156, 58);
             button1.TabIndex = 1;
             button1.Text = "Imprimir";
-            button1.UseVisualStyleBackColor = true;
+            button1.TextAlign = ContentAlignment.MiddleRight;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(23, 27);
             label1.Name = "label1";
             label1.Size = new Size(81, 16);
@@ -78,10 +85,12 @@
             // 
             // Btn_Buscar
             // 
+            Btn_Buscar.BackgroundImageLayout = ImageLayout.None;
+            Btn_Buscar.Cursor = Cursors.Hand;
             Btn_Buscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Btn_Buscar.Location = new Point(296, 22);
             Btn_Buscar.Name = "Btn_Buscar";
-            Btn_Buscar.Size = new Size(121, 28);
+            Btn_Buscar.Size = new Size(121, 26);
             Btn_Buscar.TabIndex = 4;
             Btn_Buscar.Text = "Buscar";
             Btn_Buscar.UseVisualStyleBackColor = true;
@@ -91,6 +100,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.SteelBlue;
             Controls.Add(Btn_Buscar);
             Controls.Add(Txt_NsuPedido);
             Controls.Add(label1);
@@ -98,6 +108,7 @@
             Controls.Add(DGV_Dados);
             Name = "Frm_SelecaoDeImpressaoUC";
             Size = new Size(975, 588);
+            Load += Frm_SelecaoDeImpressaoUC_Load;
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).EndInit();
             ResumeLayout(false);
             PerformLayout();

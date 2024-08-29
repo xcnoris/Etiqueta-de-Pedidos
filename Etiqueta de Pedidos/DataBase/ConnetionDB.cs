@@ -1,11 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Etiqueta_de_Pedidos.Metodos;
 
 namespace Etiqueta_de_Pedidos.DataBase
