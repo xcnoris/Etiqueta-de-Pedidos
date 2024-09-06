@@ -126,7 +126,7 @@ namespace Etiqueta_de_Pedidos.Formularios
             {
                 DGV_Dados.Rows.Clear();
                 PedidoCRUD pedidoCrud = new PedidoCRUD();
-                DataTable ProdutosPedidos = pedidoCrud.BuscarPedidosInDB(nsu);
+                DataTable ProdutosPedidos = pedidoCrud.ProdutosPedidos(nsu);
 
                 if (pedidoCRUD.Status)
                 {

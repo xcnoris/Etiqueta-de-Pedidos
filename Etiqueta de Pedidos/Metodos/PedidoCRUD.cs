@@ -19,6 +19,42 @@ namespace Etiqueta_de_Pedidos.Metodos
 
             Status = true;
         }
+
+        internal DataTable ProdutosPedidos(string nsu)
+        {
+            // Buscar o DataTable com os pedidos
+            DataTable ProdutosSelect = BuscarPedidosInDB(nsu);
+
+            // Cria um novo DataTable para armazenar os produtos desdobrados
+            DataTable produtosPedidos = ProdutosSelect.Clone(); // Clona a estrutura das colunas
+
+            // Percorre a lista de produtos
+            foreach (DataRow row in ProdutosSelect.Rows)
+            {
+                // Pega o valor da coluna "descricao_item" e separa usando o delimitador '|'
+                string descricao = row["observacao"].ToString();
+                string[] produtosDivididos = descricao.Split('|');
+
+                // Para cada item desdobrado, cria uma nova linha no DataTable
+                foreach (string produto in produtosDivididos)
+                {
+                    DataRow novaLinha = produtosPedidos.NewRow();
+
+                    // Copia as outras colunas da linha original
+                    novaLinha.ItemArray = row.ItemArray.Clone() as object[]; // Clona os valores da linha original
+
+                    // Substitui o valor da coluna "descricao_item" com o produto desdobrado
+                    novaLinha["observacao"] = produto.Trim();  // Remove espaços em branco antes de adicionar
+
+                    produtosPedidos.Rows.Add(novaLinha);  // Adiciona a nova linha
+                }
+            }
+
+            return produtosPedidos;
+        }
+
+
+
         internal DataTable BuscarPedidosInDB(string nsu)
         {
             DataTable servicosTable = new DataTable();
